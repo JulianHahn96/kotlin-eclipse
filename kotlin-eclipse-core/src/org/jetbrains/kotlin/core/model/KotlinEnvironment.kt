@@ -156,7 +156,7 @@ class KotlinScriptEnvironment private constructor(
                 SingleJavaFileRootsIndex(singleJavaFileRoots),
                 configuration.getBoolean(JVMConfigurationKeys.USE_PSI_CLASS_FILES_READING))
 
-        val finderFactory = CliVirtualFileFinderFactory(index)
+        val finderFactory = CliVirtualFileFinderFactory(index, false)
         project.registerService(MetadataFinderFactory::class.java, finderFactory)
         project.registerService(VirtualFileFinderFactory::class.java, finderFactory)
 
