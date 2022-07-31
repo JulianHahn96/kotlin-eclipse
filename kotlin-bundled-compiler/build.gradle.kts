@@ -13,13 +13,13 @@ val ideaSdkUrl = "https://www.jetbrains.com/intellij-repository/releases/com/jet
 // properties that might/should be modifiable
 
 //val kotlinCompilerTcBuildId: String = project.findProperty("kotlinCompilerTcBuildId") as String? ?: "3546752"
-val kotlinPluginUpdateId = project.findProperty("kotlinPluginUpdateId") as String? ?: "169248" // Kotlin Plugin 1.6.21 for Idea 2021.3
+val kotlinPluginUpdateId = project.findProperty("kotlinPluginUpdateId") as String? ?: "193253" // Kotlin Plugin 1.7.10 for Idea 2021.3
 
-val kotlinCompilerVersion: String = project.findProperty("kotlinCompilerVersion") as String? ?: "1.6.21"
-val kotlinxVersion: String = project.findProperty("kolinxVersion") as String? ?: "1.5.2"
+val kotlinCompilerVersion: String = project.findProperty("kotlinCompilerVersion") as String? ?: "1.7.10"
+val kotlinxVersion: String = project.findProperty("kolinxVersion") as String? ?: "1.6.3"
 val tcArtifactsPath: String = project.findProperty("tcArtifactsPath") as String? ?: ""
-val ideaVersion: String = project.findProperty("ideaVersion") as String? ?: "213.5744.223" //Idea 2021.3
-val kotlinIdeaCompatibleVersionMinor: String = project.findProperty("kotlinIdeaCompatibleVersionMinor") as String? ?: "2021.3"
+val ideaVersion: String = project.findProperty("ideaVersion") as String? ?: "213.7172.25" //Idea 2021.3.3
+val kotlinIdeaCompatibleVersionMinor: String = project.findProperty("kotlinIdeaCompatibleVersionMinor") as String? ?: "2022.3"
 val ignoreSources: Boolean = true//project.hasProperty("ignoreSources")
 
 //directories
@@ -207,7 +207,7 @@ val downloadIdeaDistributionZipAndExtractSelectedJars by tasks.registering {
     val chosenJars by extra { setOf(//"openapi",
             //"platform-util-ui",
             "util",
-            "idea",
+            "idea_rt",
             //"trove4j",
             "platform-api",
             "platform-impl") }

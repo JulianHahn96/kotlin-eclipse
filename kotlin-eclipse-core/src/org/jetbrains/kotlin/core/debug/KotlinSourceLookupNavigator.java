@@ -35,7 +35,7 @@ public class KotlinSourceLookupNavigator {
 	private KotlinSourceLookupNavigator() {
 	}
 	
-//	From JDI model we obtain path to file as "some/pckg/File.kt" and Java seeks file in folder some/pckg what might be wrong
+//	From JDI model we obtain path to file  as "some/pckg/File.kt" and Java seeks file in folder some/pckg what might be wrong
 	@Nullable
 	public IFile findKotlinSourceFile(@NotNull IJavaStackFrame frame) {
 	    ISourceLocator sourceLocator = frame.getLaunch().getSourceLocator();
