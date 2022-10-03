@@ -16,18 +16,18 @@
 *******************************************************************************/
 package org.jetbrains.kotlin.core.resolve.lang.java.structure
 
-import org.eclipse.jdt.core.dom.IMethodBinding
 import org.eclipse.jdt.core.dom.ITypeBinding
 import org.jetbrains.kotlin.load.java.structure.JavaClassifierType
-import org.jetbrains.kotlin.load.java.structure.JavaType
 import org.jetbrains.kotlin.load.java.structure.JavaTypeParameter
-import org.jetbrains.kotlin.load.java.structure.JavaTypeParameterListOwner
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
 
-public class EclipseJavaTypeParameter(binding: ITypeBinding) : EclipseJavaClassifier<ITypeBinding>(binding), JavaTypeParameter {
-    override val name: Name = SpecialNames.safeIdentifier(binding.getName())
-    
+class EclipseJavaTypeParameter(binding: ITypeBinding) : EclipseJavaClassifier<ITypeBinding>(binding), JavaTypeParameter {
+    override val name: Name = SpecialNames.safeIdentifier(binding.name)
+
+    override val isFromSource: Boolean
+        get() = binding.isFromSource
+
     override val upperBounds: Collection<JavaClassifierType>
-        get() = binding.getTypeBounds().map(::EclipseJavaClassifierType)
+        get() = binding.typeBounds.map(::EclipseJavaClassifierType)
 }

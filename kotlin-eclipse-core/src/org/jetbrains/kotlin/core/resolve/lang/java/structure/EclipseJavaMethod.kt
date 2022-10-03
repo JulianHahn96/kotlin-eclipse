@@ -29,6 +29,9 @@ import org.jetbrains.kotlin.name.Name
 
 class EclipseJavaMethod(method: IMethodBinding) : EclipseJavaMember<IMethodBinding>(method), JavaMethod {
 
+    override val isFromSource: Boolean
+        get() = binding.declaringClass.isFromSource
+
     override val typeParameters: List<JavaTypeParameter>
         get() = typeParameters(binding.typeParameters)
 

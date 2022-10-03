@@ -61,8 +61,6 @@ private val DUMMY_NAME_RANGE = object : ISourceRange {
     override fun getOffset(): Int = 1
 }
 
-open class Testt(val originElement: IType) : IType by originElement
-
 class KotlinLightType(val originElement: IType) :
         SourceType(originElement.getParent() as JavaElement, originElement.getElementName()),
         IType by originElement {

@@ -26,19 +26,21 @@ import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
 import java.lang.reflect.Modifier
 
-public class EclipseJavaClass(javaElement: ITypeBinding) : EclipseJavaClassifier<ITypeBinding>(javaElement), JavaClass {
-    override val name: Name = SpecialNames.safeIdentifier(binding.getName())
+class EclipseJavaClass(javaElement: ITypeBinding) : EclipseJavaClassifier<ITypeBinding>(javaElement), JavaClass {
+    override val name: Name = SpecialNames.safeIdentifier(binding.name)
 
-    override val isAbstract: Boolean = Modifier.isAbstract(binding.getModifiers())
+    override val isAbstract: Boolean = Modifier.isAbstract(binding.modifiers)
 
-    override val isStatic: Boolean = Modifier.isStatic(binding.getModifiers())
+    override val isStatic: Boolean = Modifier.isStatic(binding.modifiers)
 
-    override val isFinal: Boolean = Modifier.isFinal(binding.getModifiers())
+    override val isFinal: Boolean = Modifier.isFinal(binding.modifiers)
+    override val isFromSource: Boolean
+        get() = binding.isFromSource
 
     override val visibility: Visibility = EclipseJavaElementUtil.getVisibility(binding)
 
     override val typeParameters: List<JavaTypeParameter>
-        get() = typeParameters(binding.getTypeParameters())
+        get() = typeParameters(binding.typeParameters)
 
     override val innerClassNames: Collection<Name>
         get() = binding.declaredTypes.mapNotNull { it.name?.takeIf(Name::isValidIdentifier)?.let(Name::identifier) }
@@ -47,20 +49,20 @@ public class EclipseJavaClass(javaElement: ITypeBinding) : EclipseJavaClassifier
         return binding.declaredTypes.find { it.name == name.asString() }?.let(::EclipseJavaClass)
     }
 
-    override val fqName: FqName? = binding.getQualifiedName()?.let { FqName(it) }
+    override val fqName: FqName? = binding.qualifiedName?.let { FqName(it) }
 
-    override val isInterface: Boolean = binding.isInterface()
+    override val isInterface: Boolean = binding.isInterface
     override val isRecord: Boolean
         get() = false //TODO
     override val isSealed: Boolean
         get() = false //TODO
 
-    override val isAnnotationType: Boolean = binding.isAnnotation()
+    override val isAnnotationType: Boolean = binding.isAnnotation
 
-    override val isEnum: Boolean = binding.isEnum()
+    override val isEnum: Boolean = binding.isEnum
 
     override val outerClass: JavaClass?
-        get() = binding.getDeclaringClass()?.let { EclipseJavaClass(it) }
+        get() = binding.declaringClass?.let { EclipseJavaClass(it) }
     override val permittedTypes: Collection<JavaClassifierType>
         get() = emptyList() //TODO
     override val recordComponents: Collection<JavaRecordComponent>
@@ -70,18 +72,18 @@ public class EclipseJavaClass(javaElement: ITypeBinding) : EclipseJavaClassifier
         get() = classifierTypes(EclipseJavaElementUtil.getSuperTypesWithObject(binding))
 
     override val methods: Collection<JavaMethod>
-        get() = binding.declaredMethods.filterNot { it.isConstructor() }.map(::EclipseJavaMethod)
+        get() = binding.declaredMethods.filterNot { it.isConstructor }.map(::EclipseJavaMethod)
 
     override val fields: Collection<JavaField>
-        get() = binding.getDeclaredFields()
+        get() = binding.declaredFields
                 .filter {
-                    val name = it.getName()
+                    val name = it.name
                     name != null && Name.isValidIdentifier(name)
                 }
                 .map { EclipseJavaField(it) }
 
     override val constructors: Collection<JavaConstructor>
-        get() = binding.declaredMethods.filter { it.isConstructor() }.map(::EclipseJavaConstructor)
+        get() = binding.declaredMethods.filter { it.isConstructor }.map(::EclipseJavaConstructor)
 
     override val isDeprecatedInJavaDoc: Boolean = binding.isDeprecated
 

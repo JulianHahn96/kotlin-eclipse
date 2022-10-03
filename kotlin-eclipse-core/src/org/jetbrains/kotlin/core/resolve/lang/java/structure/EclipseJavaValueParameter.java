@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2000-2014 JetBrains s.r.o.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- *   
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,13 +36,18 @@ public class EclipseJavaValueParameter extends EclipseJavaElement<ITypeBinding> 
     private final String name;
     private final boolean isVararg;
     private final IAnnotationBinding[] annotationBindings;
-    
-    public EclipseJavaValueParameter(ITypeBinding type, IAnnotationBinding annotationBindings[], 
-            String name, boolean isVararg) {
+
+    public EclipseJavaValueParameter(ITypeBinding type, IAnnotationBinding[] annotationBindings,
+                                     String name, boolean isVararg) {
         super(type);
         this.name = name;
         this.isVararg = isVararg;
         this.annotationBindings = Arrays.copyOf(annotationBindings, annotationBindings.length);
+    }
+
+    @Override
+    public boolean isFromSource() {
+        return getBinding().isFromSource();
     }
 
     @Override

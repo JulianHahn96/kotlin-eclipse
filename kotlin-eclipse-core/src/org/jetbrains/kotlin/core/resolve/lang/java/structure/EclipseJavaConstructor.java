@@ -18,7 +18,12 @@ public class EclipseJavaConstructor extends EclipseJavaMember<IMethodBinding> im
         assert methodBinding.isConstructor() :
             "Method binding which is not a constructor should not be wrapped in EclipseJavaConstructor: " + methodBinding.getName();
     }
-    
+
+    @Override
+    public boolean isFromSource() {
+        return getBinding().getDeclaringClass().isFromSource();
+    }
+
     @Override
     @NotNull
     public JavaClass getContainingClass() {

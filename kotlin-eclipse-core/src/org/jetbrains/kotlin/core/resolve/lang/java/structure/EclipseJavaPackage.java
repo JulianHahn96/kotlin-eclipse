@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright 2000-2014 JetBrains s.r.o.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -16,17 +16,8 @@
  *******************************************************************************/
 package org.jetbrains.kotlin.core.resolve.lang.java.structure;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.jdt.core.IClassFile;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
+import kotlin.jvm.functions.Function1;
+import org.eclipse.jdt.core.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.core.log.KotlinLogger;
@@ -38,7 +29,10 @@ import org.jetbrains.kotlin.load.java.structure.JavaPackage;
 import org.jetbrains.kotlin.name.FqName;
 import org.jetbrains.kotlin.name.Name;
 
-import kotlin.jvm.functions.Function1;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class EclipseJavaPackage implements JavaElement, JavaPackage {
     
@@ -99,12 +93,12 @@ public class EclipseJavaPackage implements JavaElement, JavaPackage {
     private List<JavaClass> getClassesInPackage(IPackageFragment javaPackage, Function1<? super Name, ? extends Boolean> nameFilter) {
         try {
             List<JavaClass> javaClasses = new ArrayList<>();
-            for (IClassFile classFile : javaPackage.getClassFiles()) {
-                IType type = classFile.getType();
+            for (IClassFile classFile : javaPackage.getOrdinaryClassFiles()) {
+                IType type = classFile.findPrimaryType();
                 if (isOuterClass(classFile)) {
                     String elementName = type.getElementName();
                     if (Name.isValidIdentifier(elementName) && nameFilter.invoke(Name.identifier(elementName))) {
-                        javaClasses.add(new EclipseOptimizedJavaClass(type));
+                        javaClasses.add(new EclipseOptimizedJavaClass(type, false));
                     }
                 }
             }
@@ -113,7 +107,7 @@ public class EclipseJavaPackage implements JavaElement, JavaPackage {
                 for (IType javaClass : cu.getAllTypes()) {
                     String elementName = javaClass.getElementName();
                     if (Name.isValidIdentifier(elementName) && nameFilter.invoke(Name.identifier(elementName))) {
-                        javaClasses.add(new EclipseOptimizedJavaClass(javaClass));
+                        javaClasses.add(new EclipseOptimizedJavaClass(javaClass, true));
                     }
                 }
             }
