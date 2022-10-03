@@ -94,7 +94,7 @@ public class EclipseJavaPackage implements JavaElement, JavaPackage {
         try {
             List<JavaClass> javaClasses = new ArrayList<>();
             for (IClassFile classFile : javaPackage.getOrdinaryClassFiles()) {
-                IType type = classFile.findPrimaryType();
+                IType type = classFile.getType();
                 if (isOuterClass(classFile)) {
                     String elementName = type.getElementName();
                     if (Name.isValidIdentifier(elementName) && nameFilter.invoke(Name.identifier(elementName))) {
