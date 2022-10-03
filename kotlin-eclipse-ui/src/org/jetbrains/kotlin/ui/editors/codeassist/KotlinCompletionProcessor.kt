@@ -318,14 +318,14 @@ abstract class KotlinCompletionProcessor(
 private object KotlinCompletionSorter : ICompletionProposalSorter {
     override fun compare(p1: ICompletionProposal, p2: ICompletionProposal): Int {
 
-        // simple and lazy hashing to make relevance more accurate.
+		// simple and lazy hashing to make relevance more accurate.
         val relevance2 = ((p2.relevance() * p2.typeRelevance()) + (p2.typeRelevance() / 2))
         val relevance1 = ((p1.relevance() * p1.typeRelevance()) + (p1.typeRelevance() / 2))
-        return when {
+		return when {
             relevance2 > relevance1 -> 1
             relevance2 < relevance1 -> -1
-            else -> p1.sortString().compareTo(p2.sortString(), ignoreCase = true)
-        }
+			else -> p1.sortString().compareTo(p2.sortString(), ignoreCase = true)
+		}
     }
 
     private fun ICompletionProposal.sortString(): String =
