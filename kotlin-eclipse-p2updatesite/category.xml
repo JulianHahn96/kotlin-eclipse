@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.jetbrains.kotlin.feature_1.8.0.qualifier.jar" id="org.jetbrains.kotlin.feature" version="1.8.0.qualifier">
+   <feature url="features/org.jetbrains.kotlin.feature_1.8.10.qualifier.jar" id="org.jetbrains.kotlin.feature" version="1.8.10.qualifier">
       <category name="org.jetbrains.kotlin.category"/>
    </feature>
-   <feature url="features/org.jetbrains.kotlin.feature_1.8.0.qualifier.jar" id="org.jetbrains.kotlin.gradle.feature" version="1.8.0.qualifier">
+   <feature url="features/org.jetbrains.kotlin.feature_1.8.10.qualifier.jar" id="org.jetbrains.kotlin.gradle.feature" version="1.8.10.qualifier">
       <category name="org.jetbrains.kotlin.category"/>
    </feature>
    <category-def name="org.jetbrains.kotlin.category" label="Kotlin Development Tools"/>
