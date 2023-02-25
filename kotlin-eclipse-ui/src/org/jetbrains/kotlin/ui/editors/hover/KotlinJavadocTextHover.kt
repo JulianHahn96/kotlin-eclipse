@@ -130,9 +130,9 @@ class KotlinJavadocTextHover : KotlinEditorTextHover<BrowserInformationControlIn
                 val builder = StringBuilder()
                 HTMLPrinter.insertPageProlog(builder, 0, fgRGB, bgRGB, javadocStyleSheet)
                 builder.append(wrappedHeader(header))
-                val content = (descriptor.findKDoc() ?: getSourceFileForElement(element, descriptor)
-                    ?.findDeclarationForDescriptor(descriptor)?.docComment?.getDefaultSection())?.getContent()
-                    ?: element.getJavadocIfAvailable()
+                val content: String? = descriptor.findKDoc()?.contentTag?.getContent()
+                        ?: getSourceFileForElement(element, descriptor)?.findDeclarationForDescriptor(descriptor)?.docComment?.getDefaultSection()?.getContent()
+                        ?: element.getJavadocIfAvailable()
                 content?.let {
                     builder.append("<body><br><p>$it</p></body>")
                 }

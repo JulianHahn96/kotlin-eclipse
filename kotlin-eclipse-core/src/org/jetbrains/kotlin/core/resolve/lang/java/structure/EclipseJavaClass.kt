@@ -34,6 +34,7 @@ public class EclipseJavaClass(javaElement: ITypeBinding) : EclipseJavaClassifier
     override val isStatic: Boolean = Modifier.isStatic(binding.getModifiers())
 
     override val isFinal: Boolean = Modifier.isFinal(binding.getModifiers())
+    override val isFromSource: Boolean get() = binding.isFromSource
 
     override val visibility: Visibility = EclipseJavaElementUtil.getVisibility(binding)
 

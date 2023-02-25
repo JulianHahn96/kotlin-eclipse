@@ -36,5 +36,9 @@ public class EclipseJavaConstructor extends EclipseJavaMember<IMethodBinding> im
     public List<JavaValueParameter> getValueParameters() {
         return EclipseJavaElementUtil.getValueParameters(getBinding());
     }
-    
+
+    @Override
+    public boolean isFromSource() {
+        return getBinding().getDeclaringClass().isFromSource();
+    }
 }

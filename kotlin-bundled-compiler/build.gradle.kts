@@ -13,13 +13,13 @@ val ideaSdkUrl = "https://www.jetbrains.com/intellij-repository/releases/com/jet
 // properties that might/should be modifiable
 
 //val kotlinCompilerTcBuildId: String = project.findProperty("kotlinCompilerTcBuildId") as String? ?: "3546752"
-val kotlinPluginUpdateId = project.findProperty("kotlinPluginUpdateId") as String? ?: "193253" // Kotlin Plugin 1.7.10 for Idea 2021.3
+val kotlinPluginUpdateId = project.findProperty("kotlinPluginUpdateId") as String? ?: "248763" // Kotlin Plugin 1.7.21 for Idea 2022.2
 
-val kotlinCompilerVersion: String = project.findProperty("kotlinCompilerVersion") as String? ?: "1.7.10"
+val kotlinCompilerVersion: String = project.findProperty("kotlinCompilerVersion") as String? ?: "1.7.21"
 val kotlinxVersion: String = project.findProperty("kolinxVersion") as String? ?: "1.6.3"
 val tcArtifactsPath: String = project.findProperty("tcArtifactsPath") as String? ?: ""
-val ideaVersion: String = project.findProperty("ideaVersion") as String? ?: "213.7172.25" //Idea 2021.3.3
-val kotlinIdeaCompatibleVersionMinor: String = project.findProperty("kotlinIdeaCompatibleVersionMinor") as String? ?: "2022.3"
+val ideaVersion: String = project.findProperty("ideaVersion") as String? ?: "222.4459.24" //Idea 2021.3.3
+val kotlinIdeaCompatibleVersionMinor: String = project.findProperty("kotlinIdeaCompatibleVersionMinor") as String? ?: "2022.2"
 val ignoreSources: Boolean = true//project.hasProperty("ignoreSources")
 
 //directories
@@ -180,7 +180,7 @@ val extractPackagesFromPlugin by tasks.registering(Jar::class) {
 }
 
 val downloadIntellijCoreAndExtractSelectedJars by tasks.registering {
-    dependsOn(deleteLibrariesFromLibFolder)
+    /*dependsOn(deleteLibrariesFromLibFolder)
     val ideaDownloadDir = file("$downloadDir/idea-$ideaVersion")
     val locallyDownloadedIntellijCoreFile by extra { file("$ideaDownloadDir/intellij-core.zip") }
 
@@ -197,7 +197,7 @@ val downloadIntellijCoreAndExtractSelectedJars by tasks.registering {
 
             into(libDir)
         }
-    }
+    }*/
 }
 
 val downloadIdeaDistributionZipAndExtractSelectedJars by tasks.registering {
@@ -207,10 +207,11 @@ val downloadIdeaDistributionZipAndExtractSelectedJars by tasks.registering {
     val chosenJars by extra { setOf(//"openapi",
             //"platform-util-ui",
             "util",
+            "util_rt",
             "idea_rt",
-            //"trove4j",
-            "platform-api",
-            "platform-impl") }
+            "app"
+        )
+    }
 
     doLast {
         if(!locallyDownloadedIdeaZipFile.exists()) {

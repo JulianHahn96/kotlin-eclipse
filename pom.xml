@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>kotlin.eclipse</groupId>
 	<artifactId>kotlin.eclipse.plugin</artifactId>
-	<version>1.7.10-SNAPSHOT</version>
+	<version>1.7.21-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>

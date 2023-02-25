@@ -47,4 +47,6 @@ class EclipseJavaMethod(method: IMethodBinding) : EclipseJavaMember<IMethodBindi
 
     override val containingClass: JavaClass
         get() = EclipseJavaClass(binding.declaringClass)
+    override val isFromSource: Boolean
+        get() = binding.declaringClass.isFromSource
 }

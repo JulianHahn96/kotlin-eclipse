@@ -1,19 +1,19 @@
 /*******************************************************************************
-* Copyright 2000-2016 JetBrains s.r.o.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-*******************************************************************************/
+ * Copyright 2000-2016 JetBrains s.r.o.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *******************************************************************************/
 package org.jetbrains.kotlin.core.utils
 
 import com.intellij.psi.PsiClass
@@ -22,10 +22,10 @@ import org.jetbrains.kotlin.config.LanguageFeature.DefaultImportOfPackageKotlinC
 import org.jetbrains.kotlin.config.LanguageVersion
 import org.jetbrains.kotlin.config.LanguageVersionSettingsImpl
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
-import org.jetbrains.kotlin.idea.util.ActionRunningMode
 import org.jetbrains.kotlin.idea.util.ImportDescriptorResult
 import org.jetbrains.kotlin.idea.util.ImportInsertHelper
 import org.jetbrains.kotlin.name.FqName
+import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.psi.KtElement
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.resolve.ImportPath
@@ -38,28 +38,19 @@ class KotlinImportInserterHelper : ImportInsertHelper() {
         return importSortComparator
     }
 
-    override fun importDescriptor(
-        element: KtElement,
-        descriptor: DeclarationDescriptor,
-        actionRunningMode: ActionRunningMode,
-        forceAllUnderImport: Boolean
-    ): ImportDescriptorResult {
+    override fun importDescriptor(element: KtElement, descriptor: DeclarationDescriptor, runImmediately: Boolean, forceAllUnderImport: Boolean, aliasName: Name?): ImportDescriptorResult {
         throw UnsupportedOperationException()
     }
 
-    override fun importPsiClass(
-        element: KtElement,
-        psiClass: PsiClass,
-        actionRunningMode: ActionRunningMode
-    ): ImportDescriptorResult {
+    override fun importPsiClass(element: KtElement, psiClass: PsiClass, runImmediately: Boolean): ImportDescriptorResult {
         throw UnsupportedOperationException()
     }
 
     override fun isImportedWithDefault(importPath: ImportPath, contextFile: KtFile): Boolean {
         val defaultImports = JvmPlatformAnalyzerServices.getDefaultImports(
-            if (LanguageVersionSettingsImpl.DEFAULT.supportsFeature(DefaultImportOfPackageKotlinComparisons)) LanguageVersionSettingsImpl.DEFAULT
-            else LanguageVersionSettingsImpl(LanguageVersion.KOTLIN_1_0, ApiVersion.KOTLIN_1_0),
-            true
+                if (LanguageVersionSettingsImpl.DEFAULT.supportsFeature(DefaultImportOfPackageKotlinComparisons)) LanguageVersionSettingsImpl.DEFAULT
+                else LanguageVersionSettingsImpl(LanguageVersion.KOTLIN_1_0, ApiVersion.KOTLIN_1_0),
+                true
         )
         return importPath.isImported(defaultImports)
     }
@@ -69,7 +60,7 @@ class KotlinImportInserterHelper : ImportInsertHelper() {
     }
 
     override fun isImportedWithLowPriorityDefaultImport(importPath: ImportPath, contextFile: KtFile): Boolean =
-        isImportedWithDefault(importPath, contextFile)
+            isImportedWithDefault(importPath, contextFile)
 }
 
 
