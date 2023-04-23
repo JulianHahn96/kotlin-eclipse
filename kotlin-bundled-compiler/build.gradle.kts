@@ -182,6 +182,7 @@ val extractPackagesFromPlugin by tasks.registering(Jar::class) {
 
 val extractPackagesFromKTCompiler by tasks.registering(Jar::class) {
     dependsOn(downloadKotlinCompilerPluginAndExtractSelectedJars)
+    dependsOn(downloadKotlinxLibraries)
 
     from(zipTree("$libDir/kotlin-compiler.jar"))
     destinationDirectory.set(libDir)
