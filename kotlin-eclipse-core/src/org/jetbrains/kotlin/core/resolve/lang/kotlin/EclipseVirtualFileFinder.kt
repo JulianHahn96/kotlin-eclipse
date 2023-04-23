@@ -37,6 +37,7 @@ import org.jetbrains.kotlin.cli.jvm.index.JvmDependenciesIndex
 import org.jetbrains.kotlin.load.kotlin.*
 import com.intellij.openapi.project.Project
 import org.jetbrains.kotlin.descriptors.ModuleDescriptor
+import org.jetbrains.kotlin.metadata.jvm.deserialization.JvmMetadataVersion
 
 class EclipseVirtualFileFinder(
         private val javaProject: IJavaProject,
@@ -114,7 +115,7 @@ class EclipseVirtualFileFinder(
                 dir.findChild(fileName)?.check(VirtualFile::isValid)
             }?.check { it in scope }
 
-    override fun findKotlinClassOrContent(javaClass: JavaClass): KotlinClassFinder.Result? {
+    override fun findKotlinClassOrContent(javaClass: JavaClass, jvmMetadataVersion: JvmMetadataVersion): KotlinClassFinder.Result? {
         val fqName = javaClass.fqName ?: return null
         if (fqName == null) return null
 
@@ -131,7 +132,7 @@ class EclipseVirtualFileFinder(
             if (file != null) throw IllegalStateException("Virtual file not found for $javaClass")
         }
 
-        return KotlinBinaryClassCache.getKotlinBinaryClassOrClassFileContent(file!!)
+        return KotlinBinaryClassCache.getKotlinBinaryClassOrClassFileContent(file!!, jvmMetadataVersion, null)
     }
 }
 

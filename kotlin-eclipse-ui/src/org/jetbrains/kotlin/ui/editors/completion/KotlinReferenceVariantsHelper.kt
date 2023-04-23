@@ -10,6 +10,7 @@ import org.eclipse.jdt.core.search.*
 import org.eclipse.jdt.internal.ui.search.JavaSearchScopeFactory
 import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.config.LanguageVersionSettings
+import org.jetbrains.kotlin.core.model.KotlinEnvironment
 import org.jetbrains.kotlin.core.resolve.KotlinResolutionFacade
 import org.jetbrains.kotlin.core.utils.ProjectUtils
 import org.jetbrains.kotlin.descriptors.*
@@ -18,6 +19,7 @@ import org.jetbrains.kotlin.eclipse.ui.utils.KotlinImageProvider
 import org.jetbrains.kotlin.idea.FrontendInternals
 import org.jetbrains.kotlin.idea.imports.importableFqName
 import org.jetbrains.kotlin.idea.resolve.ResolutionFacade
+import org.jetbrains.kotlin.idea.resolve.languageVersionSettings
 import org.jetbrains.kotlin.idea.util.*
 import org.jetbrains.kotlin.incremental.KotlinLookupLocation
 import org.jetbrains.kotlin.incremental.components.NoLookupLocation
@@ -166,7 +168,7 @@ class KotlinReferenceVariantsHelper(
             descriptors.addScopeAndSyntheticExtensions(
                 resolutionScope,
                 explicitReceiverTypes,
-                CallType.CALLABLE_REFERENCE,
+                CallType.CallableReference(resolutionFacade.languageVersionSettings),
                 kindFilter,
                 nameFilter
             )

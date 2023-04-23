@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.*
 import org.jetbrains.kotlin.config.ApiVersion
 import org.jetbrains.kotlin.config.JvmTarget
 import org.jetbrains.kotlin.config.LanguageVersion
+import org.jetbrains.kotlin.core.preferences.AddStdLibDep
 import org.jetbrains.kotlin.core.preferences.CompilerPlugin
 import org.jetbrains.kotlin.core.preferences.KotlinProperties
 import org.jetbrains.kotlin.preferences.compiler.CompilerPluginDialog
@@ -62,6 +63,13 @@ class CompilerPropertiesView(
             }
     )
 
+    private var addStdLibDependenciesProxy: AddStdLibDep by LazyObservable(
+        initialValueProvider = {kotlinProperties.addStdLibDependencies},
+        onChange = { _, oldValue, value ->
+            kotlinProperties.addStdLibDependencies = value
+        }
+    )
+
     private lateinit var apiVersionErrorLabel: Label
 
     private lateinit var jdkHomeTextField: View<Text>
@@ -100,6 +108,11 @@ class CompilerPropertiesView(
                     nameProvider = ApiVersion::description) {
                 layout(horizontalGrab = true)
             }
+            label("Add Std lib to classpath: ")
+            singleOptionPreference(::addStdLibDependenciesProxy,
+                    allowedValues = enumValues<AddStdLibDep>().asList(),
+                    nameProvider = AddStdLibDep::description
+            )
             label("JDK Home: ")
             gridContainer(cols = 2) {
                 with(control.layout as GridLayout) {

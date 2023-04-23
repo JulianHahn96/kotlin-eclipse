@@ -40,6 +40,6 @@ public class EclipseJavaPropertyInitializerEvaluator implements JavaPropertyInit
                     descriptor.getType(),
                     false);
         else
-            return ConstantValueFactory.INSTANCE.createConstantValue(evaluated);
+            return ConstantValueFactory.INSTANCE.createConstantValue(evaluated, null);
     }
 }

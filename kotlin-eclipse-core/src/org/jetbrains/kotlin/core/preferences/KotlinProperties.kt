@@ -1,5 +1,6 @@
 package org.jetbrains.kotlin.core.preferences
 
+import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.preferences.DefaultScope
 import org.eclipse.core.runtime.preferences.IScopeContext
 import org.eclipse.core.runtime.preferences.InstanceScope
@@ -7,7 +8,7 @@ import org.jetbrains.kotlin.config.ApiVersion
 import org.jetbrains.kotlin.config.JvmTarget
 import org.jetbrains.kotlin.config.LanguageVersion
 import org.jetbrains.kotlin.core.Activator
-import org.osgi.service.prefs.Preferences as InternalPreferences
+import org.jetbrains.kotlin.core.utils.ProjectUtils
 
 class KotlinProperties(scope: IScopeContext = InstanceScope.INSTANCE) : Preferences(scope, Activator.PLUGIN_ID) {
     var globalsOverridden by BooleanPreference()
@@ -20,8 +21,8 @@ class KotlinProperties(scope: IScopeContext = InstanceScope.INSTANCE) : Preferen
 
     var languageVersion by object : Preference<LanguageVersion> {
         override fun reader(text: String?) = text
-                ?.let { LanguageVersion.fromVersionString(it) }
-                ?: LanguageVersion.LATEST_STABLE
+            ?.let { LanguageVersion.fromVersionString(it) }
+            ?: LanguageVersion.LATEST_STABLE
 
         override fun writer(value: LanguageVersion) = value.versionString
     }
@@ -30,8 +31,8 @@ class KotlinProperties(scope: IScopeContext = InstanceScope.INSTANCE) : Preferen
         override fun reader(text: String?): ApiVersion {
             val apiVersionByLanguageVersion = ApiVersion.createByLanguageVersion(languageVersion)
             return text?.let { ApiVersion.parse(it) }
-                    ?.takeIf { it <= apiVersionByLanguageVersion }
-                    ?: apiVersionByLanguageVersion
+                ?.takeIf { it <= apiVersionByLanguageVersion }
+                ?: apiVersionByLanguageVersion
         }
 
         override fun writer(value: ApiVersion) = value.versionString
@@ -42,6 +43,8 @@ class KotlinProperties(scope: IScopeContext = InstanceScope.INSTANCE) : Preferen
     val compilerPlugins by ChildCollection(::CompilerPlugin)
 
     var compilerFlags by StringPreference()
+
+    var addStdLibDependencies by EnumPreference<AddStdLibDep>(AddStdLibDep.IF_NOT_IMPORTED)
 
     fun isJDKHomUndefined() = jdkHome.isNullOrBlank()
 
@@ -63,4 +66,13 @@ class CompilerPlugin(scope: IScopeContext, path: String) : Preferences(scope, pa
     var args by ListPreference()
 
     var active by BooleanPreference()
+}
+
+enum class AddStdLibDep(val description: String, calculator: (IProject) -> Boolean) :
+        (IProject) -> Boolean by calculator {
+    ALWAYS("Always", { true }),
+    NEVER("Never", { false }),
+    IF_NOT_IMPORTED("If not imported from external build system", { project ->
+        !ProjectUtils.isMavenProject(project) && !ProjectUtils.isGradleProject(project)
+    })
 }

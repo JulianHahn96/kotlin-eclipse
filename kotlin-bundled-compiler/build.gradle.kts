@@ -13,9 +13,9 @@ val ideaSdkUrl = "https://www.jetbrains.com/intellij-repository/releases/com/jet
 // properties that might/should be modifiable
 
 //val kotlinCompilerTcBuildId: String = project.findProperty("kotlinCompilerTcBuildId") as String? ?: "3546752"
-val kotlinPluginUpdateId = project.findProperty("kotlinPluginUpdateId") as String? ?: "286278" // Kotlin Plugin 1.8.10 for Idea 2022.2
+val kotlinPluginUpdateId = project.findProperty("kotlinPluginUpdateId") as String? ?: "314827" // Kotlin Plugin 1.8.20 for Idea 2022.2
 
-val kotlinCompilerVersion: String = project.findProperty("kotlinCompilerVersion") as String? ?: "1.8.10"
+val kotlinCompilerVersion: String = project.findProperty("kotlinCompilerVersion") as String? ?: "1.8.20"
 val kotlinxVersion: String = project.findProperty("kolinxVersion") as String? ?: "1.6.3"
 val tcArtifactsPath: String = project.findProperty("tcArtifactsPath") as String? ?: ""
 val ideaVersion: String = project.findProperty("ideaVersion") as String? ?: "222.4459.24" //Idea 2022.2
@@ -167,6 +167,7 @@ val downloadKotlinCompilerPluginAndExtractSelectedJars by tasks.registering {
 
 val extractPackagesFromPlugin by tasks.registering(Jar::class) {
     dependsOn(downloadKotlinCompilerPluginAndExtractSelectedJars)
+    dependsOn(downloadKotlinxLibraries)
 
     from(zipTree("$libDir/kotlin-plugin.jar"))
     destinationDirectory.set(libDir)
@@ -251,8 +252,16 @@ val extractSelectedFilesFromIdeaJars by tasks.registering {
     }
 }
 
+val downloadKotlinxLibraries by tasks.registering(Copy::class) {
+    dependsOn(deleteLibrariesFromLibFolder)
+    from(kotlinxLibraries)
+    into(libDir)
+    rename("(kotlinx-coroutines-\\w+)-.*", "$1.jar")
+}
+
 val createIdeDependenciesJar by tasks.registering(Jar::class) {
     dependsOn(extractSelectedFilesFromIdeaJars)
+    dependsOn(downloadKotlinxLibraries)
 
     val extractDir: File by extractSelectedFilesFromIdeaJars.get().extra
 
@@ -270,12 +279,6 @@ val createIdeDependenciesJar by tasks.registering(Jar::class) {
     doLast {
         extractDir.deleteRecursively()
     }
-}
-
-val downloadKotlinxLibraries by tasks.registering(Copy::class) {
-    from(kotlinxLibraries)
-    into(libDir)
-    rename("(kotlinx-coroutines-\\w+)-.*", "$1.jar")
 }
 
 val downloadIdeaAndKotlinCompilerSources by tasks.registering {
