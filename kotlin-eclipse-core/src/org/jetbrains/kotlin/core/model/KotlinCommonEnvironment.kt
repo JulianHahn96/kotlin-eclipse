@@ -284,6 +284,7 @@ private fun registerApplicationExtensionPointsAndExtensionsFrom() {
         LanguageCodeStyleSettingsProvider.EP_NAME,
         KotlinLanguageCodeStyleSettingsProvider::class
     )
+    registerExtensionPointInRoot(LanguageCodeStyleSettingsContributor.EP_NAME, LanguageCodeStyleSettingsContributor::class)
     registerExtensionPointInRoot(JavaModuleSystem.EP_NAME, JavaModuleSystem::class)
 
     with(Extensions.getRootArea()) {

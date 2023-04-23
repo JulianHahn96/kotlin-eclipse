@@ -190,6 +190,7 @@ val extractPackagesFromKTCompiler by tasks.registering(Jar::class) {
     include("**")
     exclude("com/intellij/openapi/util/text/**")
     exclude("com/intellij/util/containers/MultiMap*")
+    exclude("com/intellij/util/containers/ContainerUtil.class")
 
     doLast {
         file("$libDir/kotlin-compiler.jar").delete()
@@ -234,8 +235,10 @@ val extractSelectedFilesFromIdeaJars by tasks.registering {
     dependsOn(downloadIdeaDistributionZipAndExtractSelectedJars)
 
     val packages by extra {
-        /*new PackageListFromManifest("META-INF/MANIFEST.MF"),*/
         PackageListFromSimpleFile(file("referencedPackages.txt").path).pathsToInclude
+    }
+    val excludedPackages by extra {
+        PackageListFromSimpleFile(file("notReferencedPackages.txt").path).pathsToInclude
     }
     val extractDir by extra { file("$downloadDir/dependencies") }
 
@@ -245,6 +248,7 @@ val extractSelectedFilesFromIdeaJars by tasks.registering {
             copy {
                 from(zipTree("$libDir/$library.jar"))
                 setIncludes(packages)
+                setExcludes(excludedPackages)
                 includeEmptyDirs = false
                 into(extractDir)
             }
