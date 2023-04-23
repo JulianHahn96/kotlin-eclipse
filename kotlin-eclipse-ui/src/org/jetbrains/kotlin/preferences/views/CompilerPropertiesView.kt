@@ -92,7 +92,7 @@ class CompilerPropertiesView(
         control = parent.gridContainer(cols = 2) {
             label("JVM target version: ")
             singleOptionPreference(kotlinProperties::jvmTarget,
-                    allowedValues = enumValues<JvmTarget>().asList().minus(JvmTarget.JVM_1_6),
+                    allowedValues = enumValues<JvmTarget>().asList(),
                     nameProvider = JvmTarget::description) {
                 layout(horizontalGrab = true)
             }

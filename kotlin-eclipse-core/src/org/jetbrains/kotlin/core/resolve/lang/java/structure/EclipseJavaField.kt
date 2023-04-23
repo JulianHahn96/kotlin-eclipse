@@ -28,6 +28,7 @@ public class EclipseJavaField(private val javaField: IVariableBinding) : Eclipse
     override val initializerValue: Any? = binding.constantValue
 
     override val isEnumEntry: Boolean = binding.isEnumConstant()
+
     override val isFromSource: Boolean
         get() = binding.declaringClass.isFromSource
 

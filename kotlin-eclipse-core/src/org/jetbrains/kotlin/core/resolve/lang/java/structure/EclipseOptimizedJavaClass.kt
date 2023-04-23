@@ -79,6 +79,7 @@ class EclipseOptimizedJavaClass(val eclipseClass: IType) : JavaClass {
     
     override val isFinal: Boolean
         get() = throw UnsupportedOperationException()
+
     override val isFromSource: Boolean
         get() = !eclipseClass.isBinary
 

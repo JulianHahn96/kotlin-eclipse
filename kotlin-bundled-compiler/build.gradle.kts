@@ -180,12 +180,28 @@ val extractPackagesFromPlugin by tasks.registering(Jar::class) {
     }
 }
 
+val extractPackagesFromKTCompiler by tasks.registering(Jar::class) {
+    dependsOn(downloadKotlinCompilerPluginAndExtractSelectedJars)
+    dependsOn(downloadKotlinxLibraries)
+
+    from(zipTree("$libDir/kotlin-compiler.jar"))
+    destinationDirectory.set(libDir)
+    archiveFileName.set("kotlin-compiler-tmp.jar")
+    include("**")
+    exclude("com/intellij/openapi/util/text/**")
+    exclude("com/intellij/util/containers/MultiMap*")
+
+    doLast {
+        file("$libDir/kotlin-compiler.jar").delete()
+        file("$libDir/kotlin-compiler-tmp.jar").renameTo(file("$libDir/kotlin-compiler.jar"))
+    }
+}
+
 val downloadIdeaDistributionZipAndExtractSelectedJars by tasks.registering {
     dependsOn(deleteLibrariesFromLibFolder)
     val ideaDownloadDir = file("$downloadDir/idea-$ideaVersion")
     val locallyDownloadedIdeaZipFile by extra { file("$ideaDownloadDir/ideaIC.zip") }
-    val chosenJars by extra { setOf(//"openapi",
-            //"platform-util-ui",
+    val chosenJars by extra { setOf(
             "util",
             "util_rt",
             "idea_rt",
@@ -297,10 +313,12 @@ val repackageIdeaAndKotlinCompilerSources by tasks.registering(Zip::class) {
 val downloadBundled by tasks.registering {
     if (localTCArtifacts) {
         dependsOn(extractPackagesFromPlugin,
+                extractPackagesFromKTCompiler,
                 createIdeDependenciesJar,
                 downloadKotlinxLibraries)
     } else {
         dependsOn(extractPackagesFromPlugin,
+                extractPackagesFromKTCompiler,
                 createIdeDependenciesJar,
                 downloadKotlinxLibraries)
     }
