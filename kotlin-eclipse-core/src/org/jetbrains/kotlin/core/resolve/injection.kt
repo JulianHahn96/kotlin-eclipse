@@ -132,7 +132,8 @@ fun createContainerForLazyResolveWithJava(
             //isReleaseCoroutines = languageVersionSettings.supportsFeature(LanguageFeature.ReleaseCoroutines),
             correctNullabilityForNotNullTypeParameter = false,
             typeEnhancementImprovementsInStrictMode = false,
-            ignoreNullabilityForErasedValueParameters = false
+            ignoreNullabilityForErasedValueParameters = false,
+            enhancePrimitiveArrays = false
         )
     )
 }.apply {

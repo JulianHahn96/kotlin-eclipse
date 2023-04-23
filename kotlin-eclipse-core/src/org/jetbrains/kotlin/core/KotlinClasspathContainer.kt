@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.IClasspathEntry
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
 import org.jetbrains.kotlin.core.model.KotlinJavaManager
+import org.jetbrains.kotlin.core.preferences.KotlinProperties
 import org.jetbrains.kotlin.core.utils.ProjectUtils
 import org.jetbrains.kotlin.core.utils.buildLibPath
 import java.util.*
@@ -46,13 +47,13 @@ class KotlinClasspathContainer(val javaProject: IJavaProject) : IClasspathContai
 
     override fun getClasspathEntries(): Array<IClasspathEntry> {
         val entries = ArrayList<IClasspathEntry>()
-                
+
         val kotlinBinFolderEntry =
             ProjectUtils.newExportedLibraryEntry(getPathToLightClassesFolder(javaProject))
         entries.add(kotlinBinFolderEntry)
 
         val project = javaProject.project
-        if (!ProjectUtils.isMavenProject(project) && !ProjectUtils.isGradleProject(project)) {
+        if (KotlinProperties.workspaceInstance.addStdLibDependencies(project)) {
             val kotlinRuntimeEntry = JavaCore.newLibraryEntry(
                     LIB_RUNTIME_NAME.buildLibPath(),
                     LIB_RUNTIME_SRC_NAME.buildLibPath(),
