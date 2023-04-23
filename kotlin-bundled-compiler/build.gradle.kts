@@ -18,7 +18,7 @@ val kotlinPluginUpdateId = project.findProperty("kotlinPluginUpdateId") as Strin
 val kotlinCompilerVersion: String = project.findProperty("kotlinCompilerVersion") as String? ?: "1.8.20"
 val kotlinxVersion: String = project.findProperty("kolinxVersion") as String? ?: "1.6.3"
 val tcArtifactsPath: String = project.findProperty("tcArtifactsPath") as String? ?: ""
-val ideaVersion: String = project.findProperty("ideaVersion") as String? ?: "222.4459.24" //Idea 2022.2
+val ideaVersion: String = project.findProperty("ideaVersion") as String? ?: "231.8109.175" //Idea 2023.1
 val kotlinIdeaCompatibleVersionMinor: String = project.findProperty("kotlinIdeaCompatibleVersionMinor") as String? ?: "2022.2"
 val ignoreSources: Boolean = true//project.hasProperty("ignoreSources")
 
