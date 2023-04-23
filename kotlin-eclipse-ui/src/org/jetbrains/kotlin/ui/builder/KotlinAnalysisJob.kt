@@ -88,7 +88,7 @@ fun runCancellableAnalysisFor(javaProject: IJavaProject, postAnalysisTask: (Anal
     
     val analysisJob = KotlinAnalysisJob(javaProject)
     analysisJob.setRule(ResourcesPlugin.getWorkspace().getRoot());
-    
+
     analysisJob.addJobChangeListener(object : JobChangeAdapter() {
         override fun done(event: IJobChangeEvent) {
             val result = event.result

@@ -97,7 +97,7 @@ fun runJob(
     
     job.setPriority(priority)
     job.setRule(ResourcesPlugin.getWorkspace().getRoot());
-    
+
     job.addJobChangeListener(object : JobChangeAdapter() {
         override fun done(event: IJobChangeEvent) {
             postTask(event)

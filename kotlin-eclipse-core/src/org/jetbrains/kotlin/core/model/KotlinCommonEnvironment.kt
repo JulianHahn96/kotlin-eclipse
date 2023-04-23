@@ -305,11 +305,7 @@ private fun registerAppExtensionPoints() {
     registerExtensionPointInRoot(PsiAugmentProvider.EP_NAME, PsiAugmentProvider::class)
     registerExtensionPointInRoot(JavaMainMethodProvider.EP_NAME, JavaMainMethodProvider::class)
 
-    CoreApplicationEnvironment.registerExtensionPoint(
-        Extensions.getRootArea(),
-        MetaLanguage.EP_NAME,
-        MetaLanguage::class.java
-    )
+    registerExtensionPointInRoot(MetaLanguage.EP_NAME, MetaLanguage::class)
 }
 
 private fun <T : Any> registerExtensionPoint(
