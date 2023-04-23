@@ -18,20 +18,10 @@ package org.jetbrains.kotlin.ui.launch
 
 import org.eclipse.core.resources.IProject
 import org.eclipse.jface.dialogs.MessageDialog
-import org.eclipse.jface.window.Window
-import org.eclipse.swt.SWT
-import org.eclipse.swt.custom.StyleRange
-import org.eclipse.swt.custom.StyledText
-import org.eclipse.swt.graphics.Image
-import org.eclipse.swt.layout.GridLayout
-import org.eclipse.swt.widgets.Composite
 import org.eclipse.swt.widgets.Display
 import org.eclipse.swt.widgets.Shell
-import org.eclipse.ui.ISharedImages
-import org.eclipse.ui.PlatformUI
 import org.jetbrains.kotlin.core.KotlinClasspathContainer
 import org.jetbrains.kotlin.core.utils.ProjectUtils
-import org.jetbrains.kotlin.ui.gridData
 
 class KotlinRuntimeConfigurator(private val project: IProject) : Runnable {
     companion object {
