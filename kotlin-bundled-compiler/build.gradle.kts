@@ -129,16 +129,6 @@ val downloadKotlinCompilerPluginAndExtractSelectedJars by tasks.registering {
             from(zipTree(locallyDownloadedCompilerFile))
 
             setIncludes(setOf("Kotlin/lib/kotlin-plugin.jar",
-                    "Kotlin/lib/ide-common.jar",
-                    "Kotlin/lib/kotlin-core.jar",
-                    "Kotlin/lib/kotlin-idea.jar",
-                    "Kotlin/lib/kotlin-common.jar",
-                    "Kotlin/lib/kotlin-j2k-old.jar",
-                    "Kotlin/lib/kotlin-j2k-new.jar",
-                    "Kotlin/lib/kotlin-j2k-idea.jar",
-                    "Kotlin/lib/kotlin-j2k-services.jar",
-                    "Kotlin/lib/kotlin-frontend-independent.jar",
-                    "Kotlin/lib/kotlin-formatter.jar",
                     "Kotlin/kotlinc/lib/kotlin-compiler.jar",
                     "Kotlin/kotlinc/lib/kotlin-stdlib.jar",
                     "Kotlin/kotlinc/lib/kotlin-reflect.jar",
