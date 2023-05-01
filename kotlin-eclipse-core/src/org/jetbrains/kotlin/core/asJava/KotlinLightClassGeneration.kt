@@ -37,7 +37,7 @@ import org.jetbrains.kotlin.psi.KtCodeFragment
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtScript
 
-object KotlinLightClassGeneration {
+object  KotlinLightClassGeneration {
 
     fun updateLightClasses(project: IProject, affectedFiles: Set<IFile>, resourcesTreeBlocked: Boolean = false) {
         if (!KotlinJavaManager.hasLinkedKotlinBinFolder(project)) return
